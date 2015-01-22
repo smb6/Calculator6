@@ -30,6 +30,9 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
     private static String operator, history;
     private static boolean resultGiven;
 
+    private static final String TAG = "DEBUG->MainActivity";
+
+
 /*
     private static final int STATE_OPERAND1 = 0b00_0001;
     private static final int STATE_OPERATOR = 0b00_0010;
@@ -47,9 +50,9 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_calculator);
 
-        String TAG = "DEBUG->MainCalculatorActivity.onCreate";
+        final String TAG_LOCAL = TAG + ".onCreate";
+        Log.d(TAG_LOCAL, "IN");
 
-        Log.d(TAG, "In onCreate");
 
 //        buttonZero = (Button) findViewById(R.id.btn_zero);
         buttonOne  = (Button) findViewById(R.id.btn_one);
@@ -117,6 +120,8 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        final String TAG_LOCAL = TAG + ".onOptionsItemSelected";
+        Log.d(TAG_LOCAL, "IN");
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -137,7 +142,9 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
 
     public float resultComputation(float op1, float op2, String oprt) {
 
-        String TAG = "DEBUG->MainCalculatorActivity.resultComputation";
+        final String TAG_LOCAL = TAG + ".resultComputation";
+        Log.d(TAG_LOCAL, "IN");
+
         float result = 0;
 
         switch (oprt) {
@@ -169,7 +176,8 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
     @Override
     public void onClick(View v) {
 
-        String TAG = "DEBUG->MainCalculatorActivity.onClick";
+        final String TAG_LOCAL = TAG + ".onClick";
+        Log.d(TAG_LOCAL, "IN");
 
         // Extract what has been pressed
         // Cast view to Button and get Text field
