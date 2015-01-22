@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="3">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/background_dark"
+        android:weightSum="3"
+        android:orientation="vertical"
+
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/tv_calcTextView"
+            android:layout_gravity="center_vertical"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="40sp"
+            android:layout_weight="1"
+
+            />
+
+        <EditText
+            android:id="@+id/et_calcEditText"
+            android:textColor="@android:color/holo_blue_light"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:editable="false"
+            android:textSize="40sp"
+            android:layout_weight="2"
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:layout_weight="2"
+        android:background="@color/background_material_dark"
+        android:orientation="vertical"
+        android:weightSum="4">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="5"
+
+            >
+
+            <Button
+                android:id="@+id/btn_seven"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_sevenValue"
+                android:tag="@string/btn_sevenTag"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_eight"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_eightValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_nine"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_nineValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_del"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_delValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_clear"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_clearValue"
+                >
+            </Button>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="5"
+
+            >
+
+            <Button
+                android:id="@+id/btn_four"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_fourValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_five"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_fiveValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_six"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_sixValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_mul"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_mulValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_div"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_divValue"
+                >
+            </Button>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="5"
+
+            >
+
+            <Button
+                android:id="@+id/btn_one"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_oneValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_two"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_twoValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_three"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_threeValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_plus"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_plusValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_minus"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_minusValue"
+                >
+            </Button>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="5"
+            >
+
+            <Button
+                android:id="@+id/btn_zero"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_zeroValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_point"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_pointValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_invSign"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_invsignValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_equal"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text="@string/btn_equalValue"
+                >
+            </Button>
+            <Button
+                android:id="@+id/btn_empty"
+                style="@style/ButtonText"
+                android:background="@drawable/btn_black"
+                android:text=""
+                >
+            </Button>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
