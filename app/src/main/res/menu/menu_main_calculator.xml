@@ -1,6 +1,31 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainCalculatorActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainCalculatorActivity">
+
+    <item
+        android:id="@+id/i_showHistory"
+        android:orderInCategory="100"
+        android:title="@string/i_showHistory"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/i_memory"
+        android:orderInCategory="100"
+        android:title="@string/i_memory"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/i_about"
+        android:orderInCategory="100"
+        android:title="@string/i_about"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+
 </menu>

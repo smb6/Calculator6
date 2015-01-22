@@ -122,6 +122,15 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.i_showHistory) {
+            return true;
+        }
+        if (id == R.id.i_memory) {
+            return true;
+        }
+        if (id == R.id.i_about) {
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

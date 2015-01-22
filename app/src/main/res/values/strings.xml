@@ -24,5 +24,8 @@
     <string name="btn_clearValue">C</string>
     <string name="btn_delValue">D</string>
     <string name="btn_sevenTag">SEVEN</string>
+    <string name="i_showHistory">History</string>
+    <string name="i_memory">Memory</string>
+    <string name="i_about">About</string>
 
 </resources>
