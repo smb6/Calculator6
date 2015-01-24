@@ -24,6 +24,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pabloc6.calculator6.MainCalculatorActivity" />
         </activity>
+        <activity
+            android:name=".AboutCalculatorActivity"
+            android:label="@string/title_activity_about_calculator"
+            android:parentActivityName=".MainCalculatorActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pabloc6.calculator6.MainCalculatorActivity" />
+        </activity>
     </application>
 
 </manifest>

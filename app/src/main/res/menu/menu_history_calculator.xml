@@ -2,6 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.pabloc6.calculator6.HistoryCalculatorActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/i_clearHistory"
+        android:orderInCategory="100"
+        android:title="@string/i_clearHistory"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/i_backToMain"
+        android:orderInCategory="100"
+        android:title="@string/i_backToMain"
+        app:showAsAction="always" />
 </menu>

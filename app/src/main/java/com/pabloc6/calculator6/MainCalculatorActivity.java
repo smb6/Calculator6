@@ -1,6 +1,8 @@
 package com.pabloc6.calculator6;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainCalculatorActivity extends ActionBarActivity implements View.OnClickListener {
@@ -124,25 +127,53 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
         final String TAG_LOCAL = TAG + ".onOptionsItemSelected";
         Log.d(TAG_LOCAL, "IN");
 
+        // For handling M+, MC, M
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
         if (id == R.id.i_showHistory) {
             Intent intentHistory = new Intent(getApplicationContext(), HistoryCalculatorActivity.class);
-            startActivityForResult(intentHistory, 3); // id = 3 , History
+            startActivityForResult(intentHistory, 3); // id = 3 , History. TODO: Make parameter
             return true;
         }
         if (id == R.id.i_memorySave) {
+            // Save the value
+            String saveValue = etCalcView.getText().toString();
+            if (!saveValue.isEmpty()) {
+                editor.putString("memSave", saveValue);
+                editor.commit();
+                Log.d(TAG_LOCAL, "memorySave: " + saveValue);
+            } else {
+                Toast.makeText(this, "No value to save in Memory", Toast.LENGTH_SHORT).show();
+                Log.d(TAG_LOCAL, "memorySave NO VALUE TO SAVE");
+            }
             return true;
         }
         if (id == R.id.i_memoryRecall) {
+            String recallValue = settings.getString("memSave", null);
+            if (recallValue != null) {
+                etCalcView.setText(recallValue);
+                Log.d(TAG_LOCAL, "memoryRecall: " + recallValue);
+            } else {
+                Toast.makeText(this, "Memory is empty", Toast.LENGTH_SHORT).show();
+                Log.d(TAG_LOCAL, "memoryRecall EMPTY ");
+            }
             return true;
         }
         if (id == R.id.i_memoryClear) {
+            editor.remove("memSave");
+            editor.commit();
+            Toast.makeText(this, "Memory is cleared", Toast.LENGTH_SHORT).show();
+            Log.d(TAG_LOCAL, "memoryClear");
             return true;
         }
         if (id == R.id.i_about) {
+            Intent intentAbout = new Intent(getApplicationContext(), AboutCalculatorActivity.class);
+            startActivityForResult(intentAbout, 6); // id = 6 , About. TODO: Make parameter
             return true;
         }
 
@@ -359,11 +390,19 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
 
     }
 
-    @override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
         // Handle the result according to the parameters
-        
+        final String TAG_LOCAL = TAG + ".onActivityResult";
+        Log.d(TAG_LOCAL, "IN");
+
+        if (6 == resultCode) {
+            Log.d(TAG_LOCAL, "Returning from About");
+        } else if (3 == resultCode) {
+            Log.d(TAG_LOCAL, "Returning from History");
+        }
+
     }
 
 
