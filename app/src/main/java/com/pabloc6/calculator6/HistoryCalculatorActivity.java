@@ -5,9 +5,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HistoryCalculatorActivity extends ActionBarActivity {
+
+    MyApplication app;
+    private ListView myListView;
 
     private static final String TAG = "DEBUG->MainActivity";
 
@@ -18,6 +28,43 @@ public class HistoryCalculatorActivity extends ActionBarActivity {
 
         final String TAG_LOCAL = TAG + ".onCreate";
         Log.d(TAG_LOCAL, "IN");
+
+        app = (MyApplication) getApplication();
+
+        displayHistory();
+
+//        String[] values = {"1+1=2", "0.9+1.1=2", "3*7=27"};
+       /* ArrayList<String> valueArray = app.sqlUtils.getNames();
+        // TODO - set 20 value to parameter
+        int startIndex = 0;
+        if (valueArray.size() > 20) {
+            startIndex = valueArray.size() - 20;
+        }
+
+        List<String> subList = valueArray.subList(startIndex, valueArray.size());
+
+        myListView = (ListView) findViewById(R.id.lv_history);
+        ListAdapter adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_expandable_list_item_1, subList); // valueArray
+
+        myListView.setAdapter(adapter);*/
+    }
+
+    public void displayHistory() {
+
+        ArrayList<String> valueArray = app.sqlUtils.getNames();
+        int startIndex = 0;
+        if (valueArray.size() > 20) {
+            startIndex = valueArray.size() - 20;
+        }
+
+        List<String> subList = valueArray.subList(startIndex, valueArray.size());
+
+        myListView = (ListView) findViewById(R.id.lv_history);
+        ListAdapter adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_expandable_list_item_1, subList); // valueArray
+
+        myListView.setAdapter(adapter);
     }
 
 
@@ -44,6 +91,10 @@ public class HistoryCalculatorActivity extends ActionBarActivity {
         } else if (id == R.id.i_backToMain) {
             setResult(3); // TODO: Make parameter
             finish();
+        } else if (id == R.id.i_clearHistory) {
+            app.sqlUtils.deleteTable();
+            Toast.makeText(this, "History cleared", Toast.LENGTH_SHORT).show();
+            displayHistory();
         }
 
 

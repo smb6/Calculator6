@@ -34,6 +34,7 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
     private static String operator, history;
     private static boolean resultGiven;
 
+    MyApplication app;
     private static final String TAG = "DEBUG->MainActivity";
 
 
@@ -57,6 +58,7 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
         final String TAG_LOCAL = TAG + ".onCreate";
         Log.d(TAG_LOCAL, "IN");
 
+        app = (MyApplication)getApplication();
 
 //        buttonZero = (Button) findViewById(R.id.btn_zero);
         buttonOne  = (Button) findViewById(R.id.btn_one);
@@ -252,7 +254,9 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
             result = 0;
             resultGiven = false;
         } else if (v.getId() == R.id.btn_del) {
-            etCalcView.setText(etCalcView.getText().delete(etCalcView.length() - 1, etCalcView.length()));
+            if (etCalcView.length() > 0) {
+                etCalcView.setText(etCalcView.getText().delete(etCalcView.length() - 1, etCalcView.length()));
+            }
         } else if (v.getId() == R.id.btn_invSign) {
             etCalcView.setText("-" + etCalcView.getText());
             Log.d(TAG, "Negate recognized");
@@ -285,7 +289,9 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
                     tvCalcView.setText("");
                     result = resultComputation(operand1, operand2, operator);
                     etCalcView.setText(String.valueOf( result));
-                    history = Float.toString(operand1) + operator + Float.toString(operand2) + "=" + Float.toString(result);
+//                    history = Float.toString(operand1) + operator + Float.toString(operand2) + "=" + Float.toString(result);
+                    history = operand1 + operator + operand2 + "=" + result;
+                    app.sqlUtils.insertData(history);
                     resultGiven = true;
                     Log.d(TAG, "result: " + result + " history: " + history);
                     break;
