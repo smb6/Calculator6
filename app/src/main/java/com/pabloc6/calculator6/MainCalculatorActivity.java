@@ -1,5 +1,6 @@
 package com.pabloc6.calculator6;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -128,9 +129,17 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
             return true;
         }
         if (id == R.id.i_showHistory) {
+            Intent intentHistory = new Intent(getApplicationContext(), HistoryCalculatorActivity.class);
+            startActivityForResult(intentHistory, 3); // id = 3 , History
             return true;
         }
-        if (id == R.id.i_memory) {
+        if (id == R.id.i_memorySave) {
+            return true;
+        }
+        if (id == R.id.i_memoryRecall) {
+            return true;
+        }
+        if (id == R.id.i_memoryClear) {
             return true;
         }
         if (id == R.id.i_about) {
@@ -348,6 +357,13 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
 */
 
 
+    }
+
+    @override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        // Handle the result according to the parameters
+        
     }
 
 

@@ -10,12 +10,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/i_memory"
-        android:orderInCategory="100"
-        android:title="@string/i_memory"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/i_about"
         android:orderInCategory="100"
         android:title="@string/i_about"
@@ -26,6 +20,25 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/i_memorySave"
+        android:orderInCategory="100"
+        android:title="@string/i_memorySave"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/i_memoryRecall"
+        android:orderInCategory="100"
+        android:title="@string/i_memoryRecall"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/i_memoryClear"
+        android:orderInCategory="100"
+        android:title="@string/i_memoryClear"
+        app:showAsAction="ifRoom" />
+
 
 
 </menu>

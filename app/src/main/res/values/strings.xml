@@ -25,7 +25,11 @@
     <string name="btn_delValue">D</string>
     <string name="btn_sevenTag">SEVEN</string>
     <string name="i_showHistory">History</string>
-    <string name="i_memory">Memory</string>
+    <string name="i_memorySave">M+</string>
+    <string name="i_memoryRecall">M</string>
+    <string name="i_memoryClear">MC</string>
     <string name="i_about">About</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <string name="title_activity_history_calculator">HistoryCalculatorActivity</string>
 
 </resources>
