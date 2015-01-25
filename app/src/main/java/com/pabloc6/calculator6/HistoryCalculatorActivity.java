@@ -33,21 +33,6 @@ public class HistoryCalculatorActivity extends ActionBarActivity {
 
         displayHistory();
 
-//        String[] values = {"1+1=2", "0.9+1.1=2", "3*7=27"};
-       /* ArrayList<String> valueArray = app.sqlUtils.getNames();
-        // TODO - set 20 value to parameter
-        int startIndex = 0;
-        if (valueArray.size() > 20) {
-            startIndex = valueArray.size() - 20;
-        }
-
-        List<String> subList = valueArray.subList(startIndex, valueArray.size());
-
-        myListView = (ListView) findViewById(R.id.lv_history);
-        ListAdapter adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_expandable_list_item_1, subList); // valueArray
-
-        myListView.setAdapter(adapter);*/
     }
 
     public void displayHistory() {

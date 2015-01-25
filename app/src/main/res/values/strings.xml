@@ -35,6 +35,10 @@
     <string name="i_backToMain">Back</string>
     <string name="title_activity_about_calculator">About</string>
     <string name="tv_aboutText">This is a simple calculator.\n\n
+        Usage: operand1(digits) operator(=-*/) operand2 = result\n\n
+        Known issues:\n
+        1. When entering new operator after operand2, operand1 and it\'s following operator are
+        discarded. Meaning that only 2 last operands and operator are calculated.\n\n
         Version 0.4\n\n
         Created by Pablo\n\n
         Contact info:\n pcusnir@gmail.com\n\n</string>

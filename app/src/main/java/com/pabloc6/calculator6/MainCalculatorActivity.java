@@ -14,40 +14,46 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
 
 public class MainCalculatorActivity extends ActionBarActivity implements View.OnClickListener {
 
+    MyApplication app;
+
+    private static final String TAG = "DEBUG->MainActivity";
     Button buttonZero, buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive;
     Button buttonSix, buttonSeven, buttonEight, buttonNine, buttonPoint, buttonPlus;
     Button buttonMinus, buttonMul, buttonDiv, buttonEqual, buttonInvSign, buttonDel;
     Button buttonClear;
     TextView tvCalcView;
     EditText etCalcView;
-    private static final String DIGITS = "0123456789.";
+
+    private static final String DIGITS = "0123456789";
     private static final String OPERATORS = "+-*/";
     private static final String EQUAL = "=";
     private static final String POINT = ".";
-    private static final String OTHERS = "!CD";
+    private static final String INVERSE = "!";
+    private static final String OTHERS = "CD";
     private static final String UNKNOWN = "UNKNOWN";
 
     private static float operand1, operand2, result;
     private static String operator, history;
     private static boolean resultGiven;
+    boolean invSet = false;
+    boolean pointSet = false;
+    boolean operatorSet = false;
 
-    MyApplication app;
-    private static final String TAG = "DEBUG->MainActivity";
+    MathContext mc = new MathContext(8, RoundingMode.CEILING); // TODO - set as parameter
 
-
-/*
-    private static final int STATE_OPERAND1 = 0b00_0001;
-    private static final int STATE_OPERATOR = 0b00_0010;
-    private static final int STATE_OPERAND2 = 0b00_0100;
-    private static final int STATE_POINT    = 0b00_1000;
-    private static final int STATE_EQUAL    = 0b01_0000;
-    private static final int STATE_OTHERS   = 0b10_0000;
-    private static int currentState = STATE_OPERAND1;
-    private static int nextState    = STATE_OPERAND1;
-*/
+    // TODO
+    // 1. Cleanup
+    // 2. Implement FSM
+    // 3. Fix trailing zero when int number
+    // 4. Shake
+    // 5. Crittercism
 
 
     @Override
@@ -107,9 +113,7 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
         buttonClear.setOnClickListener(this);
         buttonDel.setOnClickListener(this);
 
-        // TODO
-        // 1. TAG - set tags from java
-        // 2. FSM - implement fsm
+
         }
 
 
@@ -145,7 +149,8 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
         if (id == R.id.i_memorySave) {
             // Save the value
             String saveValue = etCalcView.getText().toString();
-            if (!saveValue.isEmpty()) {
+            // Prevent from saving to memory the full result string
+            if (!saveValue.isEmpty() && !resultGiven) {
                 editor.putString("memSave", saveValue);
                 editor.commit();
                 Log.d(TAG_LOCAL, "memorySave: " + saveValue);
@@ -182,37 +187,41 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
         return super.onOptionsItemSelected(item);
     }
 
-    public float resultComputation(float op1, float op2, String oprt) {
+    public BigDecimal resultComputation(float op1, float op2, String oprt) {
 
         final String TAG_LOCAL = TAG + ".resultComputation";
         Log.d(TAG_LOCAL, "IN");
+
+//        MathContext mc = new MathContext(8, RoundingMode.CEILING); // TODO - set as parameter
 
         float result = 0;
 
         switch (oprt) {
             case "+":
-                Log.d(TAG, "It's a plus");
+//                Log.d(TAG_LOCAL, "It's a plus");
                 result = op1 + op2;
                 break;
             case "-":
-                Log.d(TAG, "It's a minus");
+//                Log.d(TAG_LOCAL, "It's a minus");
                 result = op1 - op2;
                 break;
             case "*":
-                Log.d(TAG, "It's a multiply");
+//                Log.d(TAG_LOCAL, "It's a multiply");
                 result = op1 * op2;
                 break;
             case "/":
-                Log.d(TAG, "It's a divide");
+//                Log.d(TAG_LOCAL, "It's a divide");
                 result = op1/op2;
                 break;
             default:
-                Log.d(TAG, "Unrecognized operator");
+//                Log.d(TAG_LOCAL, "Unrecognized operator");
                 break;
         }
 
-        return result;
+        BigDecimal finalResult  = new BigDecimal(result);
+        Log.d(TAG_LOCAL, "finalResult: " + finalResult);
 
+        return finalResult.round(mc).stripTrailingZeros();
     }
 
     @Override
@@ -227,7 +236,6 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
         String buttonPressed = b.getText().toString();
         String buttonPressedType;
 
-
         // Can use v.getId() == R.id.btn_xxx
         if (DIGITS.contains(buttonPressed)) {
             buttonPressedType = DIGITS;
@@ -239,6 +247,8 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
             buttonPressedType = EQUAL;
         } else if (OTHERS.contains(buttonPressed)) {
             buttonPressedType = OTHERS;
+        } else if (INVERSE.contains(buttonPressed)) {
+            buttonPressedType = INVERSE;
         } else {
             buttonPressedType = UNKNOWN;
         }
@@ -253,12 +263,21 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
             operator = "";
             result = 0;
             resultGiven = false;
+            invSet = false;
+            pointSet = false;
+            operatorSet = false;
         } else if (v.getId() == R.id.btn_del) {
-            if (etCalcView.length() > 0) {
+            // Prevent delete when no value and when final result displayed
+            if ((etCalcView.length() > 0) && !resultGiven) {
                 etCalcView.setText(etCalcView.getText().delete(etCalcView.length() - 1, etCalcView.length()));
             }
         } else if (v.getId() == R.id.btn_invSign) {
-            etCalcView.setText("-" + etCalcView.getText());
+            // Allow sign inversion only once during operator
+            // TODO - allow several sign inversions
+            if (!invSet && !resultGiven) {
+                etCalcView.setText("-" + etCalcView.getText());
+                invSet = true;
+            }
             Log.d(TAG, "Negate recognized");
         } else {
 
@@ -275,25 +294,44 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
                     etCalcView.append(buttonPressed);
                     break;
                 case POINT:
-                    etCalcView.append(buttonPressed);
+                    if (!pointSet && !resultGiven) {
+                        etCalcView.append(buttonPressed);
+                        pointSet = true;
+                        Log.d(TAG, "pointSet: " + pointSet);
+                    }
                     break;
                 case OPERATORS:
-                    operand1 = Float.parseFloat(etCalcView.getText().toString());
-                    operator = buttonPressed;
-                    tvCalcView.setText(buttonPressed);
-                    etCalcView.setText("");
+                    if (!etCalcView.getText().toString().isEmpty() && !resultGiven) {
+                        operand1 = Float.parseFloat(etCalcView.getText().toString());
+                        BigDecimal op1 = new BigDecimal(operand1);
+                        op1.round(mc);
+                        op1.stripTrailingZeros();
+                        Log.d(TAG, "op1: " + op1);
+//                        operand1Str = op1.toPlainString();
+                        Log.d(TAG, "op1: " + op1);//+ " operand1Str: " + operand1Str);
+                        operator = buttonPressed;
+                        tvCalcView.setText(buttonPressed);
+                        etCalcView.setText("");
+                        invSet = false;
+                        pointSet = false;
+                        operatorSet = true;
+                    }
                     break;
                 case EQUAL:
-                    operand2 = Float.parseFloat(etCalcView.getText().toString());
-                    etCalcView.setText("");
-                    tvCalcView.setText("");
-                    result = resultComputation(operand1, operand2, operator);
-                    etCalcView.setText(String.valueOf( result));
-//                    history = Float.toString(operand1) + operator + Float.toString(operand2) + "=" + Float.toString(result);
-                    history = operand1 + operator + operand2 + "=" + result;
-                    app.sqlUtils.insertData(history);
-                    resultGiven = true;
-                    Log.d(TAG, "result: " + result + " history: " + history);
+                    if (!etCalcView.getText().toString().isEmpty() && !resultGiven && operatorSet) {
+
+                        operand2 = Float.parseFloat(etCalcView.getText().toString());
+                        BigDecimal result = resultComputation(operand1, operand2, operator);
+                        history = operand1 + " " + operator + " " + operand2 + " = " + result;
+                        tvCalcView.setText("");
+                        etCalcView.setText(history);
+                        app.sqlUtils.insertData(history);
+                        invSet = false;
+                        pointSet = false;
+                        operatorSet = false;
+                        resultGiven = true;
+                        Log.d(TAG, "result: " + result + " history: " + history);
+                    }
                     break;
                 default:
                     break;
@@ -303,97 +341,6 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
         }
 
         Log.d(TAG, "operand1: " + operand1 + " operand2: " + operand2 + " operator: " + operator);
-
-
-
-        /*// TODO
-        // 1. floating point - ADD. While in any OPERAND state allow only one POINT
-
-        if (v.getId() == R.id.btn_clear)
-        {
-            etCalcView.setText("");
-            currentState = STATE_OPERAND1;
-            nextState = STATE_OPERAND1;
-            pointSet = false;
-        } else {
-            switch (currentState) {
-                case STATE_OPERAND1: // 1
-                    if ((buttonPressedType == DIGITS) || (buttonPressedType == POINT)) {
-                        nextState = STATE_OPERAND1;
-                        tvCalcView.append(buttonPressed);
-                        etCalcView.append(buttonPressed);
-
-                        if (buttonPressedType == POINT) {
-                            pointSet = true;
-                        }
-                    } else if (buttonPressedType == OPERATORS) {
-                        nextState = STATE_OPERATOR;
-                        tvCalcView.append(buttonPressed);
-                        etCalcView.append(buttonPressed);
-                    } else {
-                        nextState = STATE_OPERAND1;
-                    }
-                    break;
-                case STATE_OPERATOR: // 2
-                    pointSet = false;
-                    if (buttonPressedType == DIGITS) {
-                        nextState = STATE_OPERAND2;
-                        tvCalcView.append(buttonPressed);
-                        etCalcView.append(buttonPressed);
-                    } else if (buttonPressedType == OPERATORS) {
-                        nextState = STATE_OPERATOR;
-                        etCalcView.setText(etCalcView.getText().delete(etCalcView.length() - 1, etCalcView.length()));
-                        etCalcView.append(buttonPressed);
-                    } else {
-                        nextState = STATE_OPERATOR;
-                    }
-                    break;
-                case STATE_OPERAND2: // 4
-                    if ((buttonPressedType == DIGITS) || (buttonPressedType == POINT)) {
-                        nextState = STATE_OPERAND2;
-                        tvCalcView.append(buttonPressed);
-                        etCalcView.append(buttonPressed);
-                        if (buttonPressedType == POINT) {
-                            pointSet = true;
-                        }
-                    } else if (buttonPressedType == EQUAL) {
-                        nextState = STATE_EQUAL;
-
-                    }
-                    break;
-//                case POINT: // 8
-//                    if (buttonPressedType == DIGITS) {
-//                        nextState =
-//                    }
-                case STATE_EQUAL: // 16
-                    // Calculate operation
-                    nextState = STATE_OPERAND1;
-                    break;
-                default:
-                        nextState = currentState;
-                    etCalcView.setText("");
-                    break;
-            }
-
-        }
-
-//        etCalcView.setText("-" + etCalcView.getText());
-//            iii = Integer.parseInt(etCalcView.getText().toString());
-
-
-        // Update the currentState for next click
-        currentState = nextState;
-
-
-        Log.d(TAG, "currentState: " + currentState + " nextState; " + nextState + " pointSet: " + pointSet);
-
-        CharSequence textInView = tvCalcView.getText();
-        CharSequence textInEdit = etCalcView.getText();
-
-        Log.d(TAG, "onClick textInView: " + textInView + " textInEdit: " + textInEdit);
-*/
-
-
     }
 
     @Override
