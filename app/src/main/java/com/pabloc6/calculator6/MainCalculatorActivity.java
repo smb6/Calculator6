@@ -52,8 +52,11 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
     // 1. Cleanup
     // 2. Implement FSM
     // 3. Fix trailing zero when int number
-    // 4. Shake
-    // 5. Crittercism
+    // 4. Landscape
+    // 5. beautify app
+
+    // 8. Shake
+    // 9. Crittercism
 
 
     @Override
@@ -162,11 +165,11 @@ public class MainCalculatorActivity extends ActionBarActivity implements View.On
         }
         if (id == R.id.i_memoryRecall) {
             String recallValue = settings.getString("memSave", null);
-            if (recallValue != null) {
+            if ((recallValue != null) && !resultGiven) {
                 etCalcView.setText(recallValue);
                 Log.d(TAG_LOCAL, "memoryRecall: " + recallValue);
             } else {
-                Toast.makeText(this, "Memory is empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Memory is empty or not in place", Toast.LENGTH_SHORT).show();
                 Log.d(TAG_LOCAL, "memoryRecall EMPTY ");
             }
             return true;
